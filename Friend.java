@@ -1,7 +1,5 @@
 /*
- * Incorrect work when user writes 2 or more words.
- * Incorrent main loop, "ArrayIndexOutOfBoundsException" current 126 line.
- * Work with files. At first in main method write files in the array with help of loops. 
+ * HomeFriend
  */
 
 import java.io.IOException;
@@ -17,6 +15,7 @@ import java.util.concurrent.ExecutionException;
 
 
 public class Friend {
+
     public static void openChrome() {
         try {
             Process open = Runtime.getRuntime().exec("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe");
@@ -24,6 +23,7 @@ public class Friend {
             ex.printStackTrace();
         }
     }
+
     public static void enableDiary() throws FileNotFoundException {
         System.out.println("You're in diary mode! Please, write your node.");
         Date d = new Date();
@@ -34,8 +34,8 @@ public class Friend {
         String note = scanner.nextLine();
         pw.println(note);
         pw.close();
-
     }
+
     public static boolean check(String str) throws FileNotFoundException {
         if (str.equalsIgnoreCase("Включи дневник")) {
             enableDiary();
@@ -45,14 +45,12 @@ public class Friend {
             openChrome();
             return true;
         }
-
         return false;
     }
 
     public static void main(String [] args) throws FileNotFoundException {
         final int N = 70, M = 20;
         String [][] dictionary = new String [N][M];
-
         Scanner scan = new Scanner(new File("dictionary.txt"));
         int lineCount = 0;
         do {
@@ -60,14 +58,13 @@ public class Friend {
             dictionary[lineCount] = currentLine.split("@");
             lineCount++;
         } while (scan.hasNextLine());
-        String line;
         Scanner sc = new Scanner(System.in);
-        line = sc.nextLine();
+        String line = sc.nextLine();
         String words[], word;
         int r;
         boolean flag = false;
         Random random = new Random();
-        while (!line.equalsIgnoreCase("Пока")) {  // FIX ME.
+        while (!line.equalsIgnoreCase("Пока")) { 
             if (check(line)) {
                 System.out.println("Что-нибудь еще?");
                 line = sc.nextLine();
