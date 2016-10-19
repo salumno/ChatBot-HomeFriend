@@ -1,10 +1,4 @@
-/*
- * Incorrect work when user writes 2 or more words.
- * Incorrent main loop, "ArrayIndexOutOfBoundsException" current 126 line.
- * Work with files. At first in main method write files in the array with help of loops. 
- */
-
-
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -12,10 +6,10 @@ import java.util.Date;
 import java.util.Random;
 import java.util.Scanner;
 
-//import java.util.Arrays;
-
-
-public class Friend { 
+/**
+ * Created by Vladislav on 17.10.2016.
+ */
+public class Friend { // Mr Smith
 
     public static void enableDiary() throws FileNotFoundException {
         Date d = new Date();
@@ -40,11 +34,11 @@ public class Friend {
 
         return false;
     }
-
     public static void main(String [] args) throws FileNotFoundException {
         final int N = 70, M = 20;
-        String [][] dictionary = new String [][] {
+        String [][] dictionary = new String [N][M]; /* {
                 // Приветствие
+                {"Заглушки", "А ты смешной" , "Ха-ха", "Я тебя не понимаю"},
                 {"привет", "И вам привет!", "Алоха!", "Здрасте, я только проснулась", "Ты меня отвлекаешь!"},
                 {"Здравствуйте", "И вам привет!", "Алоха!", "Здрасте, я только проснулась", "Ты меня отвлекаешь!"},
                 {"здравствуй", "И вам привет!", "Алоха!", "Здрасте, я только проснулась", "Ты меня отвлекаешь!"},
@@ -82,6 +76,7 @@ public class Friend {
                 {"красивый", "Я рада!", "Круто!", "Классное дерьмо!", "Я, пожалуй, пойду. У меня все плохо...", "Я тоже так хочу!"},
                 {"любимый", "Я рада!", "Круто!", "Классное дерьмо!", "Я, пожалуй, пойду. У меня все плохо...", "Я тоже так хочу!"},
                 {"круто", "Я рада!", "Круто!", "Классное дерьмо!", "Я, пожалуй, пойду. У меня все плохо...", "Я тоже так хочу!"},
+
                 // частицы и междометия
                 {"да", "Ок.", "Ну-ну", "Я не знаю, что ответить. ЛОООООСЬ!", "Я поняла тебя."},
                 {"ага", "Ок.", "Ну-ну", "Я не знаю, что ответить. ЛОООООСЬ!", "Я поняла тебя."},
@@ -96,56 +91,45 @@ public class Friend {
                 {"где", "Думаешь, я знаю?", "Сам думай!", "Запиши это в свой ежедневник, потом разберешься", "Я не экстрасенс. К сожалению...", "Ты опять под чем-то тяжелым?"},
                 {"что", "Думаешь, я знаю?", "Сам думай!", "Запиши это в свой ежедневник, потом разберешься", "Я не экстрасенс. К сожалению...", "Ты опять под чем-то тяжелым?"},
                 {"зачем", "Думаешь, я знаю?", "Сам думай!", "Запиши это в свой ежедневник, потом разберешься", "Я не экстрасенс. К сожалению...", "Ты опять под чем-то тяжелым?"},
-                {"откуда", "Думаешь, я знаю?", "Сам думай!", "Запиши это в свой ежедневник, потом разберешься", "Я не экстрасенс. К сожалению...", "Ты опять под чем-то тяжелым?"},
+                {"откуда", "Думаешь, я знаю?", "Сам думай!", "Запиши это в свой ежедневник, потом разберешься", "Я не экстрасенс. К сожалению...", "Ты опять под чем-то тяжелым?"}
 
 
-        };
-        String line;
+        }; */
+
+        Scanner scan = new Scanner(new File("dictionary.txt"));
+        int k = 0;
+        do {
+            dictionary[k] = scan.nextLine().split("@");
+            k++;
+        } while (scan.hasNextLine());
+
         Scanner sc = new Scanner(System.in);
-        line = sc.nextLine();
-        String words[], word;
+        String line = sc.nextLine();
+        String [] words;
         int r;
         boolean flag = false;
         Random random = new Random();
-        while (! line.equalsIgnoreCase("Пока")) {  // FIX ME. <- What's the problem? Your're next, bae!
-
-            //System.out.println("WOOOORK!");
-
+        while (! line.equalsIgnoreCase("Пока")) {  // FIX ME
             if (check(line)) {
                 continue;
             }
-
-            //System.out.println("WE DONE THIS!");
-
             words = line.split(" ");
-
-            //System.out.println(Arrays.toString(words));
-
             for (int i = 0; i < words.length; i++) {
-                word = words[i];
-
-                //System.out.println(word);
-
-                for (int j = 0; j < N && !flag; j++) {
-
-                    //System.out.println("OMG");
-
-                    if (word.equalsIgnoreCase(dictionary[j][0])) {
+                for (int j = 1; j < N && !flag; j++) {
+                    if (words[i].equalsIgnoreCase(dictionary[j][0])) {
                         flag = true;
                         r = random.nextInt(dictionary[j].length - 2);
                         System.out.println(dictionary[j][r + 1]);
                     }
 
-                   /* Если маркер не нашёлся
-                    if (!flag && (i == words.length - 1)) { // не нашёлся;
-                     r = random.nextInt(dictionary[N].length );
-                        System.out.println(dictionary[N - 1][r]);
-                    } */
                 }
+                /*if (!flag && (i == words.length - 1)) { // не нашёлся;
+                    r = random.nextInt(dictionary[0].length - 2 );
+                    System.out.println(dictionary[0][r + 1]);
+                } */
+                flag = false;
             }
-            //System.out.println();
             line = sc.nextLine();
-            flag = false;
         }
     }
 }
