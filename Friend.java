@@ -43,7 +43,7 @@ public class Friend {
 
     public static void main(String [] args) throws FileNotFoundException {
         final int N = 70, M = 20;
-        String [][] dictionary = new String [][] {
+        /*String [][] dictionary = new String [][] {
                 // Приветствие
                 {"привет", "И вам привет!", "Алоха!", "Здрасте, я только проснулась", "Ты меня отвлекаешь!"},
                 {"Здравствуйте", "И вам привет!", "Алоха!", "Здрасте, я только проснулась", "Ты меня отвлекаешь!"},
@@ -99,7 +99,7 @@ public class Friend {
                 {"откуда", "Думаешь, я знаю?", "Сам думай!", "Запиши это в свой ежедневник, потом разберешься", "Я не экстрасенс. К сожалению...", "Ты опять под чем-то тяжелым?"},
 
 
-        };
+        };*/
         String line;
         Scanner sc = new Scanner(System.in);
         line = sc.nextLine();
@@ -107,7 +107,7 @@ public class Friend {
         int r;
         boolean flag = false;
         Random random = new Random();
-        while (! line.equalsIgnoreCase("Пока")) {  // FIX ME. <- What's the problem? Your're next, bae!
+        while (! line.equalsIgnoreCase("Пока")) {  // FIX ME. 
 
             //System.out.println("WOOOORK!");
 
