@@ -1,3 +1,4 @@
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -5,8 +6,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class FriendTest {
+public class Friend {
 
     public static void openChrome() {
         try {
@@ -89,23 +92,39 @@ public class FriendTest {
         return false;
     }
 
+    public static boolean checkWithReg(String word, String pattern) {
+        String temp = word.toLowerCase();
+        Pattern p = Pattern.compile(pattern, Pattern.UNICODE_CHARACTER_CLASS);
+        Matcher m = p.matcher(temp);
+        return m.matches();
+    }
+
     public static void main(String [] args) throws FileNotFoundException {
+        System.out.println("Привет! Меня зовут HomeFriend! Поболтаем?");
         final int N = 70, M = 20;
         String [][] dictionary = new String [N][M];
-
-        Scanner scan = new Scanner(new File("dictionary.txt"));
+        String[] pattern = new String[N];
         int lineCount = 0;
+
+        Scanner sc = new Scanner(new File("deque.txt")); // Заполняем массив паттернов
         do {
-            String currentLine = scan.nextLine();
-            dictionary[lineCount] = currentLine.split("@");
+            pattern[lineCount] = sc.nextLine();
             lineCount++;
-        } while (scan.hasNextLine());
-        String line;
-        Scanner sc = new Scanner(System.in);
-        line = sc.nextLine();
+        } while (sc.hasNextLine());
+
+        sc = new Scanner(new File("testdeque.txt")); // Заполняем массив соответствующих паттернам ответов
+        int inx = 0;
+        do {
+            String currentLine = sc.nextLine();
+            dictionary[inx] = currentLine.split("@");
+            inx++;
+        } while (sc.hasNextLine());
+
+        sc = new Scanner(System.in);
+        String line = sc.nextLine();
         String words[], word;
         int r;
-        boolean flag = false;
+        boolean flag;
         Random random = new Random();
         while (!line.equalsIgnoreCase("Пока")) {
             if (check(line)) {
@@ -118,26 +137,27 @@ public class FriendTest {
             for (int i = 0; i < words.length; i++) {
                 word = words[i];
                 if (word.charAt(word.length() - 1) == '.' || word.charAt(word.length() - 1) == '?' ||
-                    word.charAt(word.length() - 1) == ',' || word.charAt(word.length() - 1) == '!') {
+                        word.charAt(word.length() - 1) == ',' || word.charAt(word.length() - 1) == '!') {
                     word = word.substring(0, word.length() - 1);
                 }
                 flag = false;
                 for (int j = 0; j < lineCount && !flag; j++) {
-                    if (word.equalsIgnoreCase(dictionary[j][0])) {
+                    if (checkWithReg(word, pattern[j])) {
                         flag = true;
                         markCheck = false;
-                        r = random.nextInt(dictionary[j].length - 2);
-                        System.out.println(dictionary[j][r + 1]);
+                            r = random.nextInt(dictionary[j].length - 1);
+                        System.out.print(dictionary[j][r] + " ");
                     }
                 }
             }
             if (markCheck) {
-                r = random.nextInt(dictionary[1].length - 2);
-                System.out.println(dictionary[1][r + 1]);
+                r = random.nextInt(dictionary[0].length - 1);
+                System.out.print(dictionary[0][r]);
             }
+            System.out.println();
             line = sc.nextLine();
         }
-        r = random.nextInt(dictionary[10].length - 2);
-        System.out.println(dictionary[10][r + 1]);
+        r = random.nextInt(dictionary[5].length - 1); // Hardcode: line with parting words = 5?
+        System.out.println(dictionary[5][r]);
     }
 }
